@@ -1,71 +1,224 @@
 <template>
-  <div class="min-h-screen bg-white">
+  <div class="min-h-screen bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-      <div class="text-center">
+      <div class="mb-12">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           {{ $t('admin.title') }}
         </h1>
-        <p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p class="text-lg text-gray-600">
           {{ $t('admin.description') }}
         </p>
-        <div class="bg-orange-50 rounded-lg p-8 max-w-2xl mx-auto border border-orange-200">
-          <svg class="w-12 h-12 text-orange-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p class="text-gray-700 mb-4">{{ $t('admin.placeholder') }}</p>
-          <p class="text-sm text-gray-600">
-            You can customize this section by continuing to prompt with admin features you'd like to add.
-          </p>
-        </div>
+      </div>
 
-        <div class="mt-16">
-          <h2 class="text-2xl font-bold text-gray-900 mb-8">Admin Features</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            <div class="bg-gray-50 rounded-lg p-6 text-left">
-              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.3A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"></path>
-                </svg>
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-12">
+        <button
+          @click="activeTab = 'lessons'"
+          :class="[
+            'p-6 rounded-lg text-left font-semibold transition-all',
+            activeTab === 'lessons'
+              ? 'bg-blue-600 text-white shadow-lg'
+              : 'bg-white text-gray-900 border border-gray-200 hover:border-blue-300'
+          ]"
+        >
+          <div class="text-2xl mb-2">📚</div>
+          {{ $t('admin.createLesson') }}
+        </button>
+        <button
+          @click="activeTab = 'scenarios'"
+          :class="[
+            'p-6 rounded-lg text-left font-semibold transition-all',
+            activeTab === 'scenarios'
+              ? 'bg-purple-600 text-white shadow-lg'
+              : 'bg-white text-gray-900 border border-gray-200 hover:border-purple-300'
+          ]"
+        >
+          <div class="text-2xl mb-2">⚙️</div>
+          {{ $t('admin.createScenario') }}
+        </button>
+        <button
+          @click="activeTab = 'quizzes'"
+          :class="[
+            'p-6 rounded-lg text-left font-semibold transition-all',
+            activeTab === 'quizzes'
+              ? 'bg-green-600 text-white shadow-lg'
+              : 'bg-white text-gray-900 border border-gray-200 hover:border-green-300'
+          ]"
+        >
+          <div class="text-2xl mb-2">❓</div>
+          {{ $t('admin.createQuiz') }}
+        </button>
+        <button
+          @click="activeTab = 'glossary'"
+          :class="[
+            'p-6 rounded-lg text-left font-semibold transition-all',
+            activeTab === 'glossary'
+              ? 'bg-orange-600 text-white shadow-lg'
+              : 'bg-white text-gray-900 border border-gray-200 hover:border-orange-300'
+          ]"
+        >
+          <div class="text-2xl mb-2">📖</div>
+          {{ $t('admin.createTerm') }}
+        </button>
+      </div>
+
+      <!-- Lessons Tab -->
+      <div v-if="activeTab === 'lessons'" class="bg-white rounded-lg p-8 shadow-sm">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('admin.createLesson') }}</h2>
+        <form @submit.prevent class="space-y-6 max-w-2xl">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.lessonForm.title') }}</label>
+            <input type="text" placeholder="e.g., Git Basics" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.lessonForm.slug') }}</label>
+            <input type="text" placeholder="e.g., git-basics" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.lessonForm.level') }}</label>
+            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
+              <option>{{ $t('common.beginner') }}</option>
+              <option>{{ $t('common.intermediate') }}</option>
+              <option>{{ $t('common.advanced') }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.lessonForm.estMinutes') }}</label>
+            <input type="number" placeholder="30" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.multilingualContent') }}</label>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.englishVersion') }}</p>
+                <textarea rows="4" placeholder="English content..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"></textarea>
               </div>
-              <h3 class="font-semibold text-gray-900 mb-2">Upload Tutorials</h3>
-              <p class="text-gray-600 text-sm">Add and update lesson content</p>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-6 text-left">
-              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.3A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"></path>
-                </svg>
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.koreanVersion') }}</p>
+                <textarea rows="4" placeholder="Korean content..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"></textarea>
               </div>
-              <h3 class="font-semibold text-gray-900 mb-2">Multi-language Content</h3>
-              <p class="text-gray-600 text-sm">Manage Korean and English versions</p>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-6 text-left">
-              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 17v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path>
-                </svg>
-              </div>
-              <h3 class="font-semibold text-gray-900 mb-2">User Analytics</h3>
-              <p class="text-gray-600 text-sm">Track user progress and engagement</p>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-6 text-left">
-              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M7 3a1 1 0 000 2h6a1 1 0 000-2H7zM4 7a1 1 0 011-1h10a1 1 0 011 1v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"></path>
-                </svg>
-              </div>
-              <h3 class="font-semibold text-gray-900 mb-2">Paywall Management</h3>
-              <p class="text-gray-600 text-sm">Control premium content access</p>
             </div>
           </div>
-        </div>
+          <button class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+            {{ $t('admin.saveChanges') }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Scenarios Tab -->
+      <div v-if="activeTab === 'scenarios'" class="bg-white rounded-lg p-8 shadow-sm">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('admin.createScenario') }}</h2>
+        <form @submit.prevent class="space-y-6 max-w-2xl">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.scenarioForm.title') }}</label>
+            <input type="text" placeholder="e.g., Initialize a Repository" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.scenarioForm.difficulty') }}</label>
+            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-600">
+              <option>{{ $t('common.beginner') }}</option>
+              <option>{{ $t('common.intermediate') }}</option>
+              <option>{{ $t('common.advanced') }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="w-5 h-5 rounded border-gray-300" />
+              <span class="text-sm font-semibold text-gray-700">{{ $t('admin.scenarioForm.free') }}</span>
+            </label>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.multilingualContent') }}</label>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.englishVersion') }}</p>
+                <textarea rows="4" placeholder="English prompt..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-600"></textarea>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.koreanVersion') }}</p>
+                <textarea rows="4" placeholder="Korean prompt..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-600"></textarea>
+              </div>
+            </div>
+          </div>
+          <button class="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+            {{ $t('admin.saveChanges') }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Quizzes Tab -->
+      <div v-if="activeTab === 'quizzes'" class="bg-white rounded-lg p-8 shadow-sm">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('admin.createQuiz') }}</h2>
+        <form @submit.prevent class="space-y-6 max-w-2xl">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.quizForm.title') }}</label>
+            <input type="text" placeholder="e.g., Git Basics Quiz" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.quizForm.topic') }}</label>
+            <input type="text" placeholder="e.g., Git Basics" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.quizForm.questionType') }}</label>
+            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600">
+              <option>Multiple Choice</option>
+              <option>True/False</option>
+              <option>Fill in the Blank</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.multilingualContent') }}</label>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.englishVersion') }}</p>
+                <textarea rows="4" placeholder="English questions..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600"></textarea>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.koreanVersion') }}</p>
+                <textarea rows="4" placeholder="Korean questions..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600"></textarea>
+              </div>
+            </div>
+          </div>
+          <button class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+            {{ $t('admin.saveChanges') }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Glossary Tab -->
+      <div v-if="activeTab === 'glossary'" class="bg-white rounded-lg p-8 shadow-sm">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('admin.createTerm') }}</h2>
+        <form @submit.prevent class="space-y-6 max-w-2xl">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('glossary.title') }}</label>
+            <input type="text" placeholder="e.g., Repository" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $t('admin.multilingualContent') }}</label>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.englishVersion') }}</p>
+                <textarea rows="4" placeholder="English definition..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600"></textarea>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-2">{{ $t('admin.koreanVersion') }}</p>
+                <textarea rows="4" placeholder="Korean definition..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600"></textarea>
+              </div>
+            </div>
+          </div>
+          <button class="px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors">
+            {{ $t('admin.saveChanges') }}
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 useI18n()
+
+const activeTab = ref('lessons')
 </script>
