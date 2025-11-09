@@ -32,10 +32,26 @@
             >
               {{ $t('nav.test') }}
             </RouterLink>
+            <RouterLink
+              to="/glossary"
+              class="text-gray-700 hover:text-blue-600 font-medium transition-colors text-sm"
+              :class="{ 'text-blue-600 border-b-2 border-blue-600': isActive('/glossary') }"
+            >
+              {{ $t('nav.glossary') }}
+            </RouterLink>
+            <RouterLink
+              to="/pricing"
+              class="text-gray-700 hover:text-blue-600 font-medium transition-colors text-sm"
+              :class="{ 'text-blue-600 border-b-2 border-blue-600': isActive('/pricing') }"
+            >
+              {{ $t('nav.pricing') }}
+            </RouterLink>
           </div>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-6">
+          <AuthButton />
+
           <div class="flex bg-gray-100 rounded-lg p-1">
             <button
               @click="setLanguage('en')"
@@ -91,6 +107,18 @@
         >
           {{ $t('nav.test') }}
         </RouterLink>
+        <RouterLink
+          to="/glossary"
+          class="block px-4 py-3 text-gray-700 hover:bg-gray-100 font-medium"
+        >
+          {{ $t('nav.glossary') }}
+        </RouterLink>
+        <RouterLink
+          to="/pricing"
+          class="block px-4 py-3 text-gray-700 hover:bg-gray-100 font-medium"
+        >
+          {{ $t('nav.pricing') }}
+        </RouterLink>
       </div>
     </div>
   </nav>
@@ -100,6 +128,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import AuthButton from '@/components/AuthButton.vue'
 
 const router = useRouter()
 const { locale } = useI18n()
