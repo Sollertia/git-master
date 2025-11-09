@@ -1,8 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import Learn from '@/views/Learn.vue'
+import LearnDetail from '@/views/LearnDetail.vue'
 import Practice from '@/views/Practice.vue'
+import PracticeDetail from '@/views/PracticeDetail.vue'
 import Test from '@/views/Test.vue'
+import Glossary from '@/views/Glossary.vue'
+import Pricing from '@/views/Pricing.vue'
 import Admin from '@/views/Admin.vue'
 import NotFound from '@/views/NotFound.vue'
 
@@ -18,14 +22,34 @@ const routes = [
     component: Learn,
   },
   {
+    path: '/learn/:slug',
+    name: 'LearnDetail',
+    component: LearnDetail,
+  },
+  {
     path: '/practice',
     name: 'Practice',
     component: Practice,
   },
   {
+    path: '/practice/:id',
+    name: 'PracticeDetail',
+    component: PracticeDetail,
+  },
+  {
     path: '/test',
     name: 'Test',
     component: Test,
+  },
+  {
+    path: '/glossary',
+    name: 'Glossary',
+    component: Glossary,
+  },
+  {
+    path: '/pricing',
+    name: 'Pricing',
+    component: Pricing,
   },
   {
     path: '/admin',
